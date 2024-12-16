@@ -4,9 +4,15 @@ class Program
 {
     static async Task Main(string[] args)
     {
+        // Tạo JWT token (giả sử bạn đã có một token hợp lệ)
+        string jwtToken = "token_here"; // Thay bằng JWT token thực tế
+
         // Kết nối tới SignalR Hub
         var connection = new HubConnectionBuilder()
-            .WithUrl("https://localhost:7176/hubs/notification") // Thay URL theo cấu hình API của bạn
+            .WithUrl("https://localhost:7176/hubs/notification", options =>
+            {
+                options.AccessTokenProvider = async () => jwtToken; // Truyền JWT token
+            })
             .Build();
 
         // Lắng nghe sự kiện "ReceiveNotification"
